@@ -32,7 +32,7 @@ const create = (input, opts, menuLevel) => input.map(line => {
   return text.split('\n').map(textLine => {
     const options = Object.keys(line).map(key => {
       const value = key === 'href' ? encodeURI(line[key]) : line[key];
-      return `${key}="${value}"`;
+      return `${key}=${value}`;
     }).join(' ');
 
     return `${prefix}${textLine}|${options}`;

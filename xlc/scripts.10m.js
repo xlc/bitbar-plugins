@@ -1,21 +1,59 @@
 #!/usr/bin/env /usr/local/bin/node
 
 const bitbar = require('./bitbar')
+const execSync = require('child_process').execSync
 
-bitbar([
+const docker = '/usr/local/bin/docker'
+
+let outputs = [
   {
     text: '❤',
     dropdown: false
   },
-  'Scripts',
   bitbar.sep,
+  'Scripts',
   {
     text: 'Release Keyboard',
-    bash: '~/scripts/release_keyboard.sh',
+    bash: '/bin/bash',
+    param1: '/Users/bryan/scripts/release_keyboard.sh',
+    terminal: false,
   },
   {
     text: 'Steal Keyboard',
-    bash: '~/scripts/steal_keyboard.sh',
+    bash: '/bin/bash',
+    param1: '/Users/bryan/scripts/steal_keyboard.sh',
+    terminal: false,
   },
   bitbar.sep,
-])
+  'Docker Containers'
+]
+
+const dockerContainers = execSync(`${docker} ps -a --format "{{.Names}} ({{.Image}})|{{.ID}}|{{.Status}}"`)
+  .toString()
+  .trim()
+  .split('\n')
+  .map((line) => {
+    const [name, id, status] = line.split('|')
+    let color;
+    let cmd;
+    if (status.indexOf('Exited') !== -1) {
+      color = 'red'
+      cmd = 'start'
+    } else {
+      color = 'green'
+      cmd = 'stop'
+    }
+    return {
+      text: name,
+      refresh: true,
+      color,
+      bash: docker,
+      param1: cmd,
+      param2: id,
+      terminal: false
+    }
+  })
+
+outputs = outputs.concat(dockerContainers)
+
+bitbar(outputs)

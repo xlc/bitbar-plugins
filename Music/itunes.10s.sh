@@ -157,13 +157,13 @@ fi
 if [ "$state" = "playing" ]; then
   state_icon="▶︎"
 else
-  state_icon="𝝞𝝞"
+  state_icon="॥"
 fi
 
 if [ "$track" != "no track selected" ]; then
-    echo "♫ $state_icon $track - $artist | color=$COLOR0 size=12"
+    echo "$state_icon $track - $artist | color=$COLOR0 size=12"
 else
-    echo "♫ ◼︎ | color=$COLOR0 size=12"
+    echo "◼︎ | color=$COLOR0 size=12"
 fi
 
 echo "---"
