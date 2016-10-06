@@ -24,6 +24,11 @@ let outputs = [
     param1: '/Users/bryan/scripts/steal_keyboard.sh',
     // terminal: false,
   },
+  {
+    text: 'Mount Pi',
+    bash: '/Users/bryan/scripts/mount_pi.sh',
+    // terminal: false,
+  },
 ]
 
 try {
